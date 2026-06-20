@@ -111,15 +111,33 @@ a { color: inherit; }
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 55% at 50% 46%, rgba(35, 28, 18, 0.32), transparent 70%),
-    linear-gradient(to bottom, rgba(60, 50, 38, 0.4) 0%, rgba(60, 50, 38, 0.05) 28%, rgba(60, 50, 38, 0.05) 58%, rgba(40, 32, 22, 0.58) 100%),
-    radial-gradient(ellipse at center, transparent 40%, rgba(30, 24, 16, 0.3) 100%);
+    radial-gradient(ellipse 70% 55% at 50% 46%, rgba(35, 28, 18, 0.18), transparent 70%),
+    linear-gradient(to bottom, rgba(60, 50, 38, 0.22) 0%, rgba(60, 50, 38, 0.03) 28%, rgba(60, 50, 38, 0.03) 58%, rgba(40, 32, 22, 0.36) 100%),
+    radial-gradient(ellipse at center, transparent 40%, rgba(30, 24, 16, 0.16) 100%);
   opacity: 1;
   transition: opacity 2.4s var(--ease-elegant) 0.3s;
 }
 
 .hero.is-open .hero-vignette {
   opacity: 0.6;
+}
+
+/* thin gold axis line through the center, echoing a gate's seam */
+.hero-axis {
+  position: absolute;
+  top: 8%;
+  bottom: 8%;
+  left: 50%;
+  width: 1px;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(176, 140, 87, 0.55) 18%, rgba(176, 140, 87, 0.55) 82%, transparent);
+  opacity: 1;
+  transition: opacity 1.4s var(--ease-elegant);
+}
+
+.hero.is-open .hero-axis {
+  opacity: 0;
 }
 
 .hero-content {
@@ -139,11 +157,13 @@ a { color: inherit; }
 }
 
 .eyebrow {
-  font-size: 0.78rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  margin: 0 0 0.9rem;
-  color: var(--blush);
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  letter-spacing: 0.04em;
+  margin: 0 0 1.6rem;
+  color: var(--paper-edge);
+  opacity: 0.88;
   text-shadow: 0 1px 10px rgba(0,0,0,0.25);
 }
 
@@ -157,14 +177,14 @@ a { color: inherit; }
   text-shadow: 0 2px 24px rgba(0,0,0,0.28);
 }
 
-.names .amp {
+.names .ring {
   display: block;
-  font-family: var(--serif-body);
-  font-style: italic;
-  font-size: 0.45em;
-  color: var(--paper-edge);
-  margin: 0.1em 0;
-  text-shadow: 0 2px 18px rgba(0,0,0,0.4);
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: 0.5em auto;
+  border: 1px solid var(--gold-soft);
+  border-radius: 50%;
+  opacity: 0.85;
 }
 
 .save-the-date {
@@ -172,15 +192,25 @@ a { color: inherit; }
   font-size: clamp(0.95rem, 2.4vw, 1.25rem);
   letter-spacing: 0.38em;
   text-transform: uppercase;
-  margin: 1.4rem 0 0.6rem;
+  margin: 0 0 0.6rem;
   color: var(--paper-edge);
 }
 
 .hero-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
   font-size: clamp(1rem, 2.6vw, 1.3rem);
   letter-spacing: 0.18em;
-  margin: 0.2rem 0;
+  margin: 0.6rem 0 0.2rem;
   color: var(--blush);
+}
+
+.hero-date .rule {
+  width: 28px;
+  height: 1px;
+  background: rgba(230, 201, 194, 0.6);
 }
 
 .hero-location {
@@ -193,57 +223,60 @@ a { color: inherit; }
 }
 
 .enter-btn {
-  border: 1px solid rgba(248, 242, 231, 0.65);
+  position: relative;
   color: var(--paper-edge);
   padding: 0.95rem 2.4rem;
   font-size: 0.82rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   background: rgba(60, 50, 38, 0.18);
-  transition: background 0.5s ease, border-color 0.5s ease, letter-spacing 0.5s ease;
+  transition: background 0.5s ease, letter-spacing 0.5s ease;
 }
 
 .enter-btn:hover {
   background: rgba(60, 50, 38, 0.36);
-  border-color: var(--gold-soft);
   letter-spacing: 0.34em;
 }
 
-/* gate panels: slim ironwork frame at each edge that swings further
-   out of view on click — decorative only, so pointer-events stay off
-   the illustration and the button beneath it */
+/* a pair of fine corner brackets in place of a solid border */
+.enter-btn::before,
+.enter-btn::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--gold-soft);
+}
+
+.enter-btn::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.enter-btn::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+/* gate panels: two frosted-glass halves meeting exactly at the center
+   seam, blurring the crisp estate photo behind them. On click they part
+   outward, and the sharp image grows in from the middle, like glass
+   doors swinging open rather than opaque iron panels sliding away. */
 .gate {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: clamp(96px, 24vw, 340px);
-  z-index: 3;
+  width: 50%;
+  z-index: 2;
   pointer-events: none;
-  background: linear-gradient(to right, transparent 0%, rgba(35, 28, 18, 0.58) 100%);
-  transition: transform 2s var(--ease-elegant), opacity 2s var(--ease-elegant);
-  display: flex;
+  background: rgba(248, 242, 231, 0.42);
+  backdrop-filter: blur(20px) saturate(0.7) brightness(1.1);
+  -webkit-backdrop-filter: blur(20px) saturate(0.7) brightness(1.1);
+  transition: transform 2.1s var(--ease-elegant), opacity 2.1s var(--ease-elegant);
 }
 
-.gate-left { left: 0; justify-content: flex-end; transform: translateX(0); }
-.gate-right {
-  right: 0;
-  justify-content: flex-start;
-  transform: translateX(0) scaleX(-1);
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .gate { background: rgba(248, 242, 231, 0.88); }
 }
 
-.hero.is-open .gate-left { transform: translateX(-112%); opacity: 0; }
-.hero.is-open .gate-right { transform: translateX(112%) scaleX(-1); opacity: 0; }
+.gate-left { left: 0; transform: translateX(0); }
+.gate-right { right: 0; transform: translateX(0); }
 
-.gate-ironwork {
-  height: 100%;
-  width: 100%;
-  stroke: var(--gold-soft);
-  stroke-width: 1.6;
-  fill: none;
-  opacity: 0.85;
-}
-
-.gate-scrolls circle { fill: rgba(40, 32, 22, 0.32); stroke: var(--gold-soft); }
+.hero.is-open .gate-left { transform: translateX(-100%); opacity: 0; }
+.hero.is-open .gate-right { transform: translateX(100%); opacity: 0; }
 
 .scroll-cue {
   position: absolute;
